@@ -1,39 +1,33 @@
-//your code here
-const draggables = document.querySelectorAll('.draggable');
+// Store the dragged element
 let draggedElement = null;
 
-// Add drag event listeners to all draggable elements
-draggables.forEach(draggable => {
-    // On drag start
-    draggable.addEventListener('dragstart', (e) => {
-        draggedElement = e.target;
-        setTimeout(() => {
-            e.target.style.opacity = '0.5';
-        }, 0);
-    });
+document.querySelectorAll(".image-div").forEach((div) => {
+  // Allow dragging
+  div.addEventListener("dragstart", (e) => {
+    draggedElement = e.target;
+    setTimeout(() => {
+      e.target.style.opacity = "0.5"; // Optional: Visual feedback
+    }, 0);
+  });
 
-    // On drag end
-    draggable.addEventListener('dragend', (e) => {
-        setTimeout(() => {
-            e.target.style.opacity = '1';
-        }, 0);
-        draggedElement = null;
-    });
+  div.addEventListener("dragend", (e) => {
+    e.target.style.opacity = "1";
+    draggedElement = null; // Reset the dragged element
+  });
 
-    // Allow dropping on other elements
-    draggable.addEventListener('dragover', (e) => {
-        e.preventDefault();
-    });
+  // Allow dropping
+  div.addEventListener("dragover", (e) => {
+    e.preventDefault(); // Required to allow dropping
+  });
 
-    // Handle the drop
-    draggable.addEventListener('drop', (e) => {
-        e.preventDefault();
+  div.addEventListener("drop", (e) => {
+    e.preventDefault(); // Prevent default behavior
 
-        if (draggedElement && draggedElement !== e.target) {
-            // Swap the background images
-            const tempBg = draggedElement.style.backgroundImage;
-            draggedElement.style.backgroundImage = e.target.style.backgroundImage;
-            e.target.style.backgroundImage = tempBg;
-        }
-    });
+    if (draggedElement && draggedElement !== e.target) {
+      // Swap the background images
+      const draggedStyle = draggedElement.style.backgroundImage;
+      draggedElement.style.backgroundImage = e.target.style.backgroundImage;
+      e.target.style.backgroundImage = draggedStyle;
+    }
+  });
 });
